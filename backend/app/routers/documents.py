@@ -11,7 +11,7 @@ from app.models.document import RequirementDocument, DocumentVersion
 from app.models.project import Project
 from app.schemas.document import DocumentOut, DocumentVersionOut, DocumentWithContentOut
 from app.services.auth import CurrentUser
-from app.services.document_parser import parse_document, SUPPORTED_TYPES
+from app.services.document_parser import parse_document, analyse_document, SUPPORTED_TYPES
 
 router = APIRouter(prefix="/documents", tags=["documents"])
 
@@ -70,6 +70,7 @@ async def upload_document(
 
     out = DocumentWithContentOut.model_validate(doc)
     out.latest_content = text_content
+    out.hints = analyse_document(text_content, suffix)
     return out
 
 
@@ -102,6 +103,8 @@ def get_document(
     )
     out = DocumentWithContentOut.model_validate(doc)
     out.latest_content = latest.content if latest else None
+    if latest and latest.content:
+        out.hints = analyse_document(latest.content, f".{doc.file_type}")
     return out
 
 
@@ -161,6 +164,7 @@ async def reupload_document(
 
     out = DocumentWithContentOut.model_validate(doc)
     out.latest_content = text_content
+    out.hints = analyse_document(text_content, f".{doc.file_type}")
     return out
 
 

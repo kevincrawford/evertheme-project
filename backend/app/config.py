@@ -34,6 +34,11 @@ class Settings(BaseSettings):
     azure_openai_deployment: str = ""
     ollama_base_url: str = "http://localhost:11434"
 
+    # ── Document processing ───────────────────────────────────────────────────
+    # Chunk size is resolved dynamically per LLM provider (~60% of context window).
+    doc_chunk_overlap: int = 200
+    doc_max_concurrent_chunks: int = 3
+
     def get_env_api_key(self, provider: str) -> str | None:
         """Return the server-level API key for a given provider, or None."""
         mapping = {
