@@ -26,5 +26,15 @@ class DocumentOut(BaseModel):
     model_config = {"from_attributes": True}
 
 
+class DocumentHints(BaseModel):
+    char_count: int
+    section_count: int
+    is_large: bool
+    estimated_chunks: int
+    format_warnings: list[str]
+    processing_note: str | None
+
+
 class DocumentWithContentOut(DocumentOut):
     latest_content: str | None = None
+    hints: DocumentHints | None = None

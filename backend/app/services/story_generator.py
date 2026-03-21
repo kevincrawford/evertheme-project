@@ -1,7 +1,13 @@
-import json
 import re
+import json
+import asyncio
+import logging
 
 from app.services.llm.base import BaseLLMProvider
+from app.services.chunker import resolve_chunk_size, chunk_document, build_preamble
+from app.config import get_settings
+
+logger = logging.getLogger(__name__)
 
 SYSTEM_PROMPT = """You are an expert business analyst and agile coach. Your task is to analyze a requirements document and generate well-structured user stories following the standard format.
 
@@ -17,9 +23,9 @@ Return ONLY valid JSON — an array of story objects with those exact keys. No m
 
 USER_PROMPT_TEMPLATE = """Analyze the following requirements document and generate user stories:
 
----
+----
 {document_content}
----
+----
 
 Generate comprehensive user stories that cover all the requirements. Return a JSON array."""
 
@@ -52,9 +58,10 @@ def _normalise_acceptance_criteria(value: object) -> str | None:
     return None
 
 
-async def generate_stories(document_content: str, provider: BaseLLMProvider) -> list[dict]:
-    """Call the LLM and return a list of story dicts."""
-    user_prompt = USER_PROMPT_TEMPLATE.format(document_content=document_content[:12000])
+async def _generate_from_chunk(chunk: str, provider: BaseLLMProvider) -> list[dict]:
+    """Generate stories from a single chunk of document text."""
+    content_with_preamble = build_preamble(chunk)
+    user_prompt = USER_PROMPT_TEMPLATE.format(document_content=content_with_preamble)
     raw = await provider.complete(SYSTEM_PROMPT, user_prompt)
 
     # Strip possible markdown fences in case the model includes them
@@ -79,3 +86,42 @@ async def generate_stories(document_content: str, provider: BaseLLMProvider) -> 
         )
 
     return stories
+
+
+async def generate_stories(document_content: str, provider: BaseLLMProvider) -> list[dict]:
+    """
+    Split *document_content* into provider-optimised chunks, generate stories
+    from each chunk (rate-limited via semaphore), and return a merged flat list.
+
+    Single-chunk documents make exactly one LLM call — identical to previous behaviour.
+    """
+    settings = get_settings()
+    chunk_size = resolve_chunk_size(provider)
+    overlap = settings.doc_chunk_overlap
+    max_concurrent = settings.doc_max_concurrent_chunks
+
+    chunks = chunk_document(document_content, chunk_size, overlap)
+
+    if len(chunks) == 1:
+        # Fast path: no chunking needed — behaves identically to the original implementation
+        return await _generate_from_chunk(chunks[0], provider)
+
+    logger.info(
+        "Document split into %d chunks for generation (provider=%s, chunk_size=%d)",
+        len(chunks),
+        provider.provider_name,
+        chunk_size,
+    )
+
+    semaphore = asyncio.Semaphore(max_concurrent)
+
+    async def bounded_generate(chunk: str) -> list[dict]:
+        async with semaphore:
+            try:
+                return await _generate_from_chunk(chunk, provider)
+            except Exception as exc:
+                logger.warning("Chunk generation failed, skipping: %s", exc)
+                return []
+
+    results = await asyncio.gather(*[bounded_generate(c) for c in chunks])
+    return [story for chunk_stories in results for story in chunk_stories]

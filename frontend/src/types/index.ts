@@ -21,6 +21,15 @@ export interface Project {
   updated_at: string;
 }
 
+export interface DocumentHints {
+  char_count: number;
+  section_count: number;
+  is_large: boolean;
+  estimated_chunks: number;
+  format_warnings: string[];
+  processing_note: string | null;
+}
+
 export interface Document {
   id: string;
   project_id: string;
@@ -28,6 +37,7 @@ export interface Document {
   file_type: string;
   current_version: number;
   latest_content?: string | null;
+  hints?: DocumentHints | null;
   created_at: string;
   updated_at: string;
 }
