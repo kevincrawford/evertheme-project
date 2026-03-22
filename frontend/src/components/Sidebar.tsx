@@ -17,7 +17,7 @@ export default function Sidebar() {
   return (
     <aside className="w-60 min-h-screen bg-white border-r border-gray-200 flex flex-col">
       <div className="p-5 border-b border-gray-100">
-        <img src="/logo.svg" alt="everapps" width={120} height={32} />
+        <img src="/images/brand/logo.png" alt="everapps" width={155} height={32} />
       </div>
 
       <nav className="flex-1 p-3 space-y-1">
