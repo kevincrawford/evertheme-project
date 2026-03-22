@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sparkles, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 
 const NAV_LINKS = [
@@ -19,11 +19,8 @@ export default function MarketingHeader() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 shrink-0">
-            <div className="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center shadow-sm">
-              <Sparkles className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-xl font-bold text-gray-900">Evertheme</span>
+          <Link href="/" className="shrink-0">
+            <img src="/images/brand/logo.png" alt="everapps" width={155} height={32} />
           </Link>
 
           {/* Desktop nav */}

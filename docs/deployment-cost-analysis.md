@@ -1,14 +1,14 @@
-# Evertheme — Deployment Platform Cost Analysis
+# everapps — Deployment Platform Cost Analysis
 
 **Prepared:** March 2026  
-**Project:** Evertheme — Requirements Backlog App  
+**Project:** everapps  
 **Stack:** FastAPI · Next.js 14 · PostgreSQL 16 · Nginx · Docker  
 
 ---
 
 ## 1. Stack Overview
 
-Evertheme runs as a multi-service Docker Compose application. Any deployment platform must support the following:
+everapps runs as a multi-service Docker Compose application. Any deployment platform must support the following:
 
 | Service | Technology | Resource Baseline |
 |---|---|---|
@@ -208,7 +208,7 @@ background tasks, not the primary API.
 
 **Growth estimate:** ~$220–350 / month (Dedicated plan, higher vCPU, HA Postgres Flexible)
 
-**Azure-specific advantage for Evertheme:** The codebase already integrates Azure OpenAI and
+**Azure-specific advantage for everapps:** The codebase already integrates Azure OpenAI and
 Azure DevOps as PM export targets. Running on Azure consolidates billing, simplifies private
 networking between the app and Azure OpenAI endpoints, and removes cross-cloud egress charges.
 
@@ -339,4 +339,4 @@ subject to change. Verify current rates using each provider's pricing calculator
 
 ---
 
-*Document generated for the Evertheme project · March 2026*
+*Document generated for the everapps project · March 2026*

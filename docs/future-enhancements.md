@@ -1,7 +1,7 @@
-# Evertheme — Future Enhancements
+# everapps — Future Enhancements
 
 **Prepared:** March 2026  
-**Scope:** Two planned enhancements that extend Evertheme from a requirements backlog tool into a
+**Scope:** Two planned enhancements that extend everapps from a requirements backlog tool into a
 full AI-driven development pipeline — from approved user stories to deployed, live applications.
 
 ---
@@ -56,31 +56,31 @@ document). Each one is a hard blocker for a specific area of implementation:
 
 ### Step 2 — Register Domain and Configure DNS
 
-1. Register the chosen base domain (e.g., `evertheme.app`) with a domain registrar
+1. Register the chosen base domain (e.g., `EVERAPPS.app`) with a domain registrar
 2. Delegate DNS management to the chosen platform's nameservers or a standalone DNS provider
    (e.g., Cloudflare, Route 53)
-3. Create a wildcard `A` or `CNAME` record: `*.evertheme.app` → Evertheme's ingress IP or
+3. Create a wildcard `A` or `CNAME` record: `*.EVERAPPS.app` → EVERAPPS's ingress IP or
    load balancer hostname
-4. Obtain a wildcard TLS certificate for `*.evertheme.app` via Let's Encrypt DNS-01 challenge
+4. Obtain a wildcard TLS certificate for `*.EVERAPPS.app` via Let's Encrypt DNS-01 challenge
    or the chosen platform's managed certificate service; configure auto-renewal
 
 ---
 
 ### Step 3 — Create GitHub Organization and Credentials
 
-1. Create the GitHub organization (e.g., `evertheme-projects`) under the Evertheme account
+1. Create the GitHub organization (e.g., `EVERAPPS-projects`) under the EVERAPPS account
 2. Provision a **GitHub App** (preferred over a Personal Access Token for production) with the
    following permissions:
    - `Contents: Read & Write` — create repos, branches, commits
    - `Pull requests: Read & Write` — open PRs with story metadata
    - `Workflows: Read & Write` — commit `.github/workflows/` files to new repos
    - `Administration: Read & Write` — configure branch protection rules
-   - `Webhooks: Read & Write` — register per-repo webhooks pointing back to Evertheme
+   - `Webhooks: Read & Write` — register per-repo webhooks pointing back to EVERAPPS
 3. Download the GitHub App private key (PEM); store it securely — it will be added to
-   Evertheme's environment secrets
-4. Install the GitHub App on the `evertheme-projects` organization
+   EVERAPPS's environment secrets
+4. Install the GitHub App on the `EVERAPPS-projects` organization
 5. Generate a **webhook secret** (a random 32+ character string) to be shared between GitHub
-   and Evertheme's `POST /api/v1/pipeline/webhook` endpoint for payload signature verification
+   and EVERAPPS's `POST /api/v1/pipeline/webhook` endpoint for payload signature verification
 
 > **Why a GitHub App over a PAT?** A GitHub App authenticates as the app installation (not a
 > personal user account), can be scoped precisely to the org, has higher API rate limits
@@ -88,24 +88,24 @@ document). Each one is a hard blocker for a specific area of implementation:
 
 ---
 
-### Step 4 — Deploy Evertheme Itself
+### Step 4 — Deploy EVERAPPS Itself
 
 This is the most critical operational prerequisite. **GitHub webhooks require a publicly reachable
 HTTPS URL** to deliver events to. The `POST /api/v1/pipeline/webhook` endpoint must be live on
 the internet before any project repository can register a webhook pointing to it.
 
-Evertheme currently has no git repository initialized and no CI/CD pipeline configured. The
+EVERAPPS currently has no git repository initialized and no CI/CD pipeline configured. The
 following must be completed first:
 
 1. Initialize a git repository in this project and push to a GitHub repo under your control
-2. Configure Evertheme's own CI/CD pipeline — the pipeline skeleton from
+2. Configure EVERAPPS's own CI/CD pipeline — the pipeline skeleton from
    [`docs/deployment-cost-analysis.md`](deployment-cost-analysis.md) §7 applies directly:
    lint & test → build Docker images → push to registry → run Alembic migrations → deploy
-3. Deploy Evertheme to one of the evaluated platforms with a real, stable public domain
-   (e.g., `app.evertheme.com`)
+3. Deploy EVERAPPS to one of the evaluated platforms with a real, stable public domain
+   (e.g., `app.EVERAPPS.com`)
 4. Confirm the health endpoint (`GET /health`) is reachable externally
-5. Record the public base URL — it will be stored in `EVERTHEME_PUBLIC_URL` and used when
-   registering webhooks on each project repo Evertheme creates
+5. Record the public base URL — it will be stored in `EVERAPPS_PUBLIC_URL` and used when
+   registering webhooks on each project repo EVERAPPS creates
 
 ---
 
@@ -134,10 +134,10 @@ If Option B (external coding agent webhook) is chosen:
 1. Set up the external agent service (Cursor background agent, GitHub Copilot Workspace, or
    equivalent)
 2. Obtain the agent's inbound webhook URL and API key
-3. Configure the agent's outbound callback to point to Evertheme's
+3. Configure the agent's outbound callback to point to EVERAPPS's
    `POST /api/v1/pipeline/webhook` endpoint when a PR is opened
-4. Test the round-trip: Evertheme fires outbound webhook → agent creates branch + PR →
-   GitHub webhook fires back → Evertheme updates story status
+4. Test the round-trip: EVERAPPS fires outbound webhook → agent creates branch + PR →
+   GitHub webhook fires back → EVERAPPS updates story status
 
 ---
 
@@ -149,7 +149,7 @@ secrets manager on the chosen deployment platform.
 
 ```bash
 # ── GitHub Integration ────────────────────────────────────────────────────────
-GITHUB_ORG=evertheme-projects
+GITHUB_ORG=EVERAPPS-projects
 GITHUB_APP_ID=                         # numeric App ID from GitHub App settings
 GITHUB_APP_PRIVATE_KEY=                # contents of the downloaded .pem key file
 GITHUB_APP_INSTALLATION_ID=            # installation ID for the org
@@ -163,8 +163,8 @@ RENDER_API_KEY=
 GCP_PROJECT_ID=                        # Cloud Run only
 
 # ── Domain ────────────────────────────────────────────────────────────────────
-BASE_DOMAIN=evertheme.app              # base for auto-provisioned project subdomains
-EVERTHEME_PUBLIC_URL=                  # e.g. https://app.evertheme.com
+BASE_DOMAIN=EVERAPPS.app              # base for auto-provisioned project subdomains
+EVERAPPS_PUBLIC_URL=                  # e.g. https://app.EVERAPPS.com
 
 # ── Coding Agent (Option B only) ─────────────────────────────────────────────
 CODING_AGENT_WEBHOOK_URL=              # URL to POST story payloads to
@@ -199,7 +199,7 @@ Step 1 — Resolve open decisions
         └── Base domain
 Step 2 — Register domain + configure wildcard DNS + obtain wildcard TLS cert
 Step 3 — Create GitHub org + provision GitHub App + generate webhook secret
-Step 4 — Deploy Evertheme itself (git repo → CI/CD → live public URL)
+Step 4 — Deploy EVERAPPS itself (git repo → CI/CD → live public URL)
 Step 5 — Set up deployment platform account + obtain API token
 Step 6 — Configure external coding agent  [Option B only]
 Step 7 — Add new environment variables to .env.example + production secrets
@@ -215,11 +215,11 @@ that unlock the implementation work described in the enhancements below.
 
 ### 1.1 Codebase Storage — GitHub Repository per Project
 
-Each Evertheme project maps 1-to-1 with a dedicated GitHub repository. The repository is created
+Each EVERAPPS project maps 1-to-1 with a dedicated GitHub repository. The repository is created
 automatically when a project is first set up for code generation.
 
 **Hosting model:**
-- Evertheme controls a GitHub organization (e.g., `evertheme-projects`)
+- EVERAPPS controls a GitHub organization (e.g., `EVERAPPS-projects`)
 - Each project repo is created via the GitHub REST API using a stored organization token
 - Repositories are private by default; visibility is configurable per project
 
@@ -247,9 +247,9 @@ class ProjectRepository(Base):
 
     id: UUID  # primary key
     project_id: UUID  # FK → projects.id
-    github_org: str   # e.g. "evertheme-projects"
+    github_org: str   # e.g. "EVERAPPS-projects"
     github_repo: str  # e.g. "my-project-abc123"
-    github_url: str   # https://github.com/evertheme-projects/my-project-abc123
+    github_url: str   # https://github.com/EVERAPPS-projects/my-project-abc123
     default_branch: str   # "main"
     staging_branch: str   # "staging"
     tech_stack: str | None  # e.g. "nextjs-fastapi", "react-node", etc.
@@ -310,7 +310,7 @@ class ProjectDeployment(Base):
 
 ```mermaid
 flowchart TD
-  projectCreate["Project Created in Evertheme"] --> repoProvision["GitHub Repo Provisioned"]
+  projectCreate["Project Created in EVERAPPS"] --> repoProvision["GitHub Repo Provisioned"]
   repoProvision --> ciCommit["CI/CD Workflow File Committed to Repo"]
   ciCommit --> platformEnv["Deployment Environments Created on Platform"]
   platformEnv --> stagingRecord["ProjectDeployment record: staging"]
@@ -355,16 +355,16 @@ and open a pull request.
 
 #### Option B — External Coding Agent via Webhook
 
-When a story is approved, Evertheme fires a webhook to an external coding agent (e.g., a Cursor
+When a story is approved, EVERAPPS fires a webhook to an external coding agent (e.g., a Cursor
 background agent, GitHub Copilot Workspace, or an OpenAI Codex-powered agent). The agent
-operates in the GitHub repository directly and opens a pull request when done. Evertheme then
+operates in the GitHub repository directly and opens a pull request when done. EVERAPPS then
 receives a webhook from GitHub when the PR is created.
 
 **How it works:**
-1. Story is marked `approved`; Evertheme fires an outbound webhook with story payload
+1. Story is marked `approved`; EVERAPPS fires an outbound webhook with story payload
 2. The coding agent clones the repo, reads the story, and writes code with full IDE tooling
 3. Agent opens a PR on the `story/{id}-{slug}` branch
-4. GitHub PR webhook fires → Evertheme's `/api/v1/pipeline/webhook` endpoint updates
+4. GitHub PR webhook fires → EVERAPPS's `/api/v1/pipeline/webhook` endpoint updates
    `StoryCodeTask` status to `in_review`
 
 **Pros:**
@@ -382,7 +382,7 @@ receives a webhook from GitHub when the PR is created.
 Regardless of which Option is chosen, a `github_service.py` is required to interact with the
 GitHub REST API. Key responsibilities:
 
-- Create repositories in the Evertheme GitHub org
+- Create repositories in the EVERAPPS GitHub org
 - Create and push branches
 - Commit files (individual or batch via Git Trees API)
 - Open pull requests with story metadata in the PR description
@@ -397,10 +397,10 @@ Every deployed project receives a URL. Two approaches are supported:
 
 #### Default: Automatic Subdomain
 
-Every project gets a subdomain under `evertheme.app` automatically upon first deployment.
+Every project gets a subdomain under `EVERAPPS.app` automatically upon first deployment.
 
-- **Format:** `{project-slug}.evertheme.app`
-- **DNS:** Wildcard DNS record `*.evertheme.app` → Evertheme's ingress/reverse proxy
+- **Format:** `{project-slug}.EVERAPPS.app`
+- **DNS:** Wildcard DNS record `*.EVERAPPS.app` → EVERAPPS's ingress/reverse proxy
 - **Routing:** The Nginx/Caddy reverse proxy inspects the `Host` header and routes to the
   correct deployment container or platform service
 - **TLS:** Wildcard certificate provisioned via Let's Encrypt; renewed automatically
@@ -408,19 +408,19 @@ Every project gets a subdomain under `evertheme.app` automatically upon first de
 The `project-slug` is derived from the project name (lowercased, special characters replaced with
 hyphens, truncated to 48 characters) with a short unique suffix appended to avoid collisions.
 
-**Example:** A project named "My E-commerce App" → `my-e-commerce-app-a3f2.evertheme.app`
+**Example:** A project named "My E-commerce App" → `my-e-commerce-app-a3f2.EVERAPPS.app`
 
 #### Optional: Custom Domain
 
 Project owners can configure a custom domain in the project settings. The verification flow:
 
 1. User enters their custom domain (e.g., `app.mycompany.com`) in the Domain Configuration UI
-2. Evertheme generates a DNS verification token and instructs the user to add a `TXT` record:
-   `_evertheme-verify.app.mycompany.com → evertheme-verify={token}`
-3. Evertheme polls DNS (or the user triggers re-verification) until the `TXT` record resolves
+2. EVERAPPS generates a DNS verification token and instructs the user to add a `TXT` record:
+   `_EVERAPPS-verify.app.mycompany.com → EVERAPPS-verify={token}`
+3. EVERAPPS polls DNS (or the user triggers re-verification) until the `TXT` record resolves
 4. Once verified, the user updates their DNS to add a `CNAME`:
-   `app.mycompany.com → {project-slug}.evertheme.app`
-5. Evertheme provisions a dedicated TLS certificate via Let's Encrypt ACME HTTP-01 or DNS-01
+   `app.mycompany.com → {project-slug}.EVERAPPS.app`
+5. EVERAPPS provisions a dedicated TLS certificate via Let's Encrypt ACME HTTP-01 or DNS-01
    challenge
 6. The reverse proxy begins accepting requests on the custom domain
 
@@ -445,7 +445,7 @@ class ProjectDomain(Base):
 
 ```mermaid
 flowchart TD
-  projectDeployed["Project First Deployed"] --> autoSubdomain["Auto-subdomain assigned\nmy-project-a3f2.evertheme.app"]
+  projectDeployed["Project First Deployed"] --> autoSubdomain["Auto-subdomain assigned\nmy-project-a3f2.EVERAPPS.app"]
   autoSubdomain --> optCustom{"User wants\ncustom domain?"}
   optCustom -->|No| done["Domain active"]
   optCustom -->|Yes| addTxt["User adds TXT verification record"]
@@ -603,7 +603,7 @@ flowchart TD
 ### 2.3 Completion Tracking — Webhook-Driven Status Transitions
 
 Story status transitions in the coding pipeline are driven by **GitHub webhook events** delivered
-to a new Evertheme endpoint. This keeps story status automatically in sync with real GitHub
+to a new EVERAPPS endpoint. This keeps story status automatically in sync with real GitHub
 activity without polling.
 
 **Webhook events and resulting transitions:**
@@ -680,9 +680,9 @@ activity without polling.
 |---|---|---|
 | Deployment platform for generated projects | Railway, Fly.io, Google Cloud Run, Render (see §1.2) | Not decided |
 | AI coding integration approach | Option A (extend LLM service) vs Option B (external agent webhook) | Not decided |
-| GitHub org name for project repos | e.g., `evertheme-projects` | Not decided |
-| Subdomain base domain | e.g., `evertheme.app` — requires domain registration | Not decided |
+| GitHub org name for project repos | e.g., `EVERAPPS-projects` | Not decided |
+| Subdomain base domain | e.g., `EVERAPPS.app` — requires domain registration | Not decided |
 
 ---
 
-*Document generated for the Evertheme project · March 2026*
+*Document generated for the EVERAPPS project · March 2026*

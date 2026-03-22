@@ -7,7 +7,7 @@ from app.routers import auth, projects, documents, stories, settings, integratio
 settings_obj = get_settings()
 
 app = FastAPI(
-    title="Evertheme — Requirements Backlog API",
+    title="everapps",
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",

@@ -65,7 +65,7 @@ const FEATURES = [
     color: 'bg-indigo-100 text-indigo-600',
     title: 'Multi-format Document Parsing',
     description:
-      'Import requirements from .docx, .pdf, .txt, and .md files. Evertheme extracts the content and feeds it to your chosen LLM.',
+      'Import requirements from .docx, .pdf, .txt, and .md files. everapps extracts the content and feeds it to your chosen LLM.',
   },
   {
     icon: Bot,
@@ -102,7 +102,7 @@ const HOW_IT_WORKS = [
     step: '01',
     title: 'Upload your requirements',
     description:
-      'Drag and drop a Word doc, PDF, markdown file, or plain text. Evertheme parses the content automatically.',
+      'Drag and drop a Word doc, PDF, markdown file, or plain text. everapps parses the content automatically.',
   },
   {
     step: '02',
@@ -120,19 +120,19 @@ const HOW_IT_WORKS = [
 
 const FAQS = [
   {
-    question: 'What document formats does Evertheme support?',
+    question: 'What document formats does everapps support?',
     answer:
-      'Evertheme parses .docx (Word), .pdf, .txt, and .md files. You can upload multiple documents per project and Evertheme will track each version separately.',
+      'everapps parses .docx (Word), .pdf, .txt, and .md files. You can upload multiple documents per project and everapps will track each version separately.',
   },
   {
     question: 'Which LLM providers can I use?',
     answer:
-      'You can connect OpenAI (GPT-4 / GPT-3.5), Anthropic Claude, Azure OpenAI, or a locally-hosted Ollama model. Just provide your API key in Settings — Evertheme never stores it in plaintext.',
+      'You can connect OpenAI (GPT-4 / GPT-3.5), Anthropic Claude, Azure OpenAI, or a locally-hosted Ollama model. Just provide your API key in Settings — everapps never stores it in plaintext.',
   },
   {
     question: 'Which project management tools are supported?',
     answer:
-      'Evertheme integrates with JIRA, Asana, Trello, and Azure DevOps. You can configure multiple integrations and choose which one to export to on a per-story basis.',
+      'everapps integrates with JIRA, Asana, Trello, and Azure DevOps. You can configure multiple integrations and choose which one to export to on a per-story basis.',
   },
   {
     question: 'How does the AI story review work?',
@@ -244,7 +244,7 @@ export default function LandingPage() {
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Built for every team</h2>
             <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-              Whether you&apos;re a solo PM or a growing engineering org, Evertheme fits your workflow.
+              Whether you&apos;re a solo PM or a growing engineering org, everapps fits your workflow.
             </p>
           </div>
 
@@ -276,7 +276,7 @@ export default function LandingPage() {
               Everything you need to ship faster
             </h2>
             <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-              Evertheme handles the entire journey from raw requirements to a PM-tool-ready backlog.
+              everapps handles the entire journey from raw requirements to a PM-tool-ready backlog.
             </p>
           </div>
 
@@ -329,7 +329,7 @@ export default function LandingPage() {
             </h2>
             <p className="text-lg text-gray-500">
               Still have questions?{' '}
-              <Link href="mailto:hello@evertheme.io" className="text-brand-600 hover:underline">
+              <Link href="mailto:hello@everapps.io" className="text-brand-600 hover:underline">
                 Drop us a line.
               </Link>
             </p>

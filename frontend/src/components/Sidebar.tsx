@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { logout } from "@/lib/auth";
-import { LayoutDashboard, Settings, LogOut, FileText } from "lucide-react";
+import { LayoutDashboard, Settings, LogOut } from "lucide-react";
 
 const nav = [
   { href: "/dashboard", label: "Projects", icon: LayoutDashboard },
@@ -17,12 +17,7 @@ export default function Sidebar() {
   return (
     <aside className="w-60 min-h-screen bg-white border-r border-gray-200 flex flex-col">
       <div className="p-5 border-b border-gray-100">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center">
-            <FileText className="w-4 h-4 text-white" />
-          </div>
-          <span className="font-bold text-gray-900">Evertheme</span>
-        </div>
+        <img src="/images/brand/logo.png" alt="everapps" width={155} height={32} />
       </div>
 
       <nav className="flex-1 p-3 space-y-1">

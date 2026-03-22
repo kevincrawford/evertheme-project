@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Sparkles } from 'lucide-react';
 
 const FOOTER_LINKS: Record<string, { label: string; href: string }[]> = {
   Product: [
@@ -25,11 +24,8 @@ export default function MarketingFooter() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
           {/* Brand column */}
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2.5 mb-4">
-              <div className="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center">
-                <Sparkles className="w-4 h-4 text-white" />
-              </div>
-              <span className="text-lg font-bold text-white">Evertheme</span>
+            <Link href="/" className="inline-block mb-4">
+              <img src="/images/brand/logo-light.png" alt="everapps" width={155} height={32} />
             </Link>
             <p className="text-sm leading-relaxed">
               AI-powered requirements-to-backlog automation for modern product teams.
@@ -57,7 +53,7 @@ export default function MarketingFooter() {
         </div>
 
         <div className="border-t border-gray-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-3 text-sm">
-          <span>© {new Date().getFullYear()} Evertheme. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} everapps. All rights reserved.</span>
           <div className="flex items-center gap-6">
             <Link href="/login" className="hover:text-white transition-colors">
               Log in
