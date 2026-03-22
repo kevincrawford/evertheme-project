@@ -1,4 +1,4 @@
-# Evertheme — Requirements Backlog App
+# everapps — Requirements Backlog App
 
 Convert requirements documents into reviewed, version-controlled backlogs and publish them to your project management tool.
 

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the architecture and implementation of large requirements document support in Evertheme. It replaces the previous hardcoded 12,000-character truncation with a structure-aware, provider-optimised chunking pipeline that ensures every part of a document is processed, while surfacing a pre-generation advisory to the user for large or low-quality-format documents.
+This document describes the architecture and implementation of large requirements document support in everapps. It replaces the previous hardcoded 12,000-character truncation with a structure-aware, provider-optimised chunking pipeline that ensures every part of a document is processed, while surfacing a pre-generation advisory to the user for large or low-quality-format documents.
 
 ---
 

@@ -40,7 +40,7 @@ const TIERS: PricingTier[] = [
     name: 'Hobby',
     price: '$20',
     priceNote: 'per month',
-    description: 'For solo practitioners who rely on Evertheme every sprint.',
+    description: 'For solo practitioners who rely on everapps every sprint.',
     cta: 'Start Hobby',
     ctaHref: '/register?plan=hobby',
     ctaVariant: 'primary',
@@ -84,7 +84,7 @@ const TIERS: PricingTier[] = [
     price: 'Custom',
     description: 'For large organisations with custom requirements and compliance needs.',
     cta: 'Contact sales',
-    ctaHref: 'mailto:sales@evertheme.io',
+    ctaHref: 'mailto:sales@everapps.io',
     ctaVariant: 'enterprise',
     features: [
       'Everything in Growth',
@@ -237,7 +237,7 @@ function ComparisonCell({ value }: { value: string | boolean }) {
 
 /* ─── Page ──────────────────────────────────────────────────────────────────── */
 
-export const metadata = { title: 'Pricing — Evertheme' };
+export const metadata = { title: 'Pricing — everapps' };
 
 export default function PricingPage() {
   return (
@@ -328,7 +328,7 @@ export default function PricingPage() {
             our sales team will build a solution that works for you.
           </p>
           <Link
-            href="mailto:sales@evertheme.io"
+            href="mailto:sales@everapps.io"
             className="inline-flex items-center gap-2 rounded-xl bg-white px-8 py-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-100 transition-colors shadow"
           >
             Talk to sales
